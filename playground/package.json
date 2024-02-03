@@ -1,0 +1,41 @@
+{
+  "name": "test",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "pnpm build && vite preview"
+  },
+  "dependencies": {
+    "@solid-hooks/core": "^0.1.1",
+    "node-taglib-sharp-extend": "link:..",
+    "solid-js": "^1.8.12"
+  },
+  "devDependencies": {
+    "@solid-primitives/keyed": "^1.2.1",
+    "@unocss/reset": "^0.58.4",
+    "unocss": "^0.58.4",
+    "vite": "^5.0.12",
+    "vite-plugin-node-polyfills": "^0.19.0",
+    "vite-plugin-solid": "^2.9.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "assert": "npm:@nolyfill/assert@latest",
+      "function-bind": "npm:@nolyfill/function-bind@latest",
+      "gopd": "npm:@nolyfill/gopd@latest",
+      "has-property-descriptors": "npm:@nolyfill/has-property-descriptors@latest",
+      "has-proto": "npm:@nolyfill/has-proto@latest",
+      "has-symbols": "npm:@nolyfill/has-symbols@latest",
+      "hasown": "npm:@nolyfill/hasown@latest",
+      "is-arguments": "npm:@nolyfill/is-arguments@latest",
+      "is-generator-function": "npm:@nolyfill/is-generator-function@latest",
+      "is-nan": "npm:@nolyfill/is-nan@latest",
+      "is-typed-array": "npm:@nolyfill/is-typed-array@latest",
+      "object-is": "npm:@nolyfill/object-is@latest",
+      "object.assign": "npm:@nolyfill/object.assign@latest",
+      "side-channel": "npm:@nolyfill/side-channel@latest",
+      "which-typed-array": "npm:@nolyfill/which-typed-array@latest"
+    }
+  }
+}

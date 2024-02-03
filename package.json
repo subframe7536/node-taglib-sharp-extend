@@ -1,0 +1,104 @@
+{
+  "name": "node-taglib-sharp-extend",
+  "type": "module",
+  "version": "0.2.4",
+  "description": "read and write audio file metadata in nodejs / browser(memory)",
+  "author": "subframe7536",
+  "license": "LGPL-3.0-or-later",
+  "repository": "https://github.com/subframe7536/node-taglib-sharp-memory",
+  "keywords": [
+    "music-metadata"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/taglib/index.d.ts",
+      "require": "./dist/taglib/index.js"
+    },
+    "./utils": {
+      "import": "./dist/main/index.js",
+      "require": "./dist/main/index.cjs"
+    },
+    "./vite": {
+      "import": "./dist/main/vite.js",
+      "require": "./dist/main/vite.cjs"
+    }
+  },
+  "main": "./dist/taglib/index.js",
+  "module": "./dist/taglib/index.js",
+  "types": "./dist/taglib/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "utils": [
+        "./dist/main/index.d.ts"
+      ],
+      "vite": [
+        "./dist/main/vite.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "lint": "tsc --noEmit && eslint . --max-warnings 0",
+    "format": "eslint . --fix",
+    "dev": "tsup --watch",
+    "build": "tsup && tsc -p ./tsconfig.taglib.json && node fix.mjs",
+    "release": "pnpm test && pnpm run build && bumpp --all && npm publish",
+    "test": "vitest --run",
+    "test:dev": "vitest"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "peerDependencies": {
+    "magic-string": "^0.30",
+    "vite-plugin-node-polyfills": "^0.17.0"
+  },
+  "peerDependenciesMeta": {
+    "vite-plugin-node-polyfills": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "iconv-lite": "^0.6.3",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@subframe7536/eslint-config": "^0.5.9",
+    "@subframe7536/type-utils": "^0.1.4",
+    "@types/node": "^20.11.16",
+    "bumpp": "^9.3.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-solid": "^0.13.1",
+    "node-taglib-sharp-memory": "github:subframe7536/node-taglib-sharp-mermory#be1083e3434ff7a09fe800459b8ad80712b4420b",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vitest": "^1.2.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "array-includes": "npm:@nolyfill/array-includes@latest",
+      "array.prototype.flat": "npm:@nolyfill/array.prototype.flat@latest",
+      "assert": "npm:@nolyfill/assert@latest",
+      "available-typed-arrays": "npm:@nolyfill/available-typed-arrays@latest",
+      "function-bind": "npm:@nolyfill/function-bind@latest",
+      "gopd": "npm:@nolyfill/gopd@latest",
+      "has": "npm:@nolyfill/has@latest",
+      "has-proto": "npm:@nolyfill/has-proto@latest",
+      "has-symbols": "npm:@nolyfill/has-symbols@latest",
+      "has-tostringtag": "npm:@nolyfill/has-tostringtag@latest",
+      "is-arguments": "npm:@nolyfill/is-arguments@latest",
+      "is-generator-function": "npm:@nolyfill/is-generator-function@latest",
+      "is-nan": "npm:@nolyfill/is-nan@latest",
+      "is-typed-array": "npm:@nolyfill/is-typed-array@latest",
+      "object-is": "npm:@nolyfill/object-is@latest",
+      "object.assign": "npm:@nolyfill/object.assign@latest",
+      "object.values": "npm:@nolyfill/object.values@latest",
+      "side-channel": "npm:@nolyfill/side-channel@latest",
+      "which-typed-array": "npm:@nolyfill/which-typed-array@latest"
+    }
+  }
+}

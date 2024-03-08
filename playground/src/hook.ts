@@ -6,7 +6,7 @@ import {
   updatePicture as _updatePicture,
   updateTag as _updateTag,
   flushFile,
-  getBuffer,
+  getBufferFromFile,
   getFileFromBuffer,
   getPictureURL,
   parseMetadata,
@@ -88,7 +88,7 @@ export function useMetadata(
     if (!meta) {
       return
     }
-    return downloadUint8ArrayAsFile(getBuffer(meta)!, meta.name)
+    return downloadUint8ArrayAsFile(getBufferFromFile(meta)!, meta.name)
   }
 
   return [metadata, { updateTag, updatePicture, download }]

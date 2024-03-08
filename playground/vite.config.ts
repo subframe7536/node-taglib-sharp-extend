@@ -8,21 +8,21 @@ export default defineConfig(() => ({
     solid(),
     uno(),
     polyfillTaglib({
-      isBuild: false,
+      isBuild: true,
     }),
     splitVendorChunkPlugin(),
   ],
   build: {
-    minify: false,
+    // minify: false,
     rollupOptions: {
       treeshake: true,
-      output: {
-        manualChunks: (id) => {
-          if (id.includes('node_modules/.pnpm') && !id.includes('solid')) {
-            return id.split('node_modules/.pnpm/')[1].split('/')[0]
-          }
-        },
-      },
+      // output: {
+      //   manualChunks: (id) => {
+      //     if (id.includes('node_modules/.pnpm') && !id.includes('solid')) {
+      //       return id.split('node_modules/.pnpm/')[1].split('/')[0]
+      //     }
+      //   },
+      // },
     },
   },
 }))

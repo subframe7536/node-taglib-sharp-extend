@@ -10,7 +10,7 @@ pnpm add node-taglib-sharp node-taglib-sharp-extend
 
 ## Usage
 
-### Basic
+### Extra function compare to origin
 
 ```ts
 import { File } from 'node-taglib-sharp-extend'
@@ -25,7 +25,10 @@ const file = File.createFromBuffer('test.mp3', buffer)
 ```ts
 import {
   flushFile,
+  getBufferFromFile,
   getFileFromBuffer,
+  getPictureBase64,
+  getPictureURL,
   parseMetadata,
   updatePicture,
   updateTag
@@ -42,6 +45,14 @@ updateTag(file, 'title', 'test')
 updatePicture(file, buffer)
 
 file = flushFile(file)
+console.log(getBufferFromFile(file).length)
+
+// browser only
+const [url, clean] = getPictureURL(pictures[0])
+console.log(url)
+clean()
+
+const base64 = await getPictureBase64(pictures[0])
 ```
 
 #### Types

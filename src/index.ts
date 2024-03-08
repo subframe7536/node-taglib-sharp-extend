@@ -1,5 +1,5 @@
-import { type ICodec, type IPicture, PictureType } from 'node-taglib-sharp-memory/src'
-import { ByteVector, File, MediaTypes, MemoryFileAbstraction, Picture } from 'node-taglib-sharp-memory/src'
+import type { ICodec, IPicture } from 'node-taglib-sharp-memory/src'
+import { ByteVector, File, MediaTypes, MemoryFileAbstraction, Picture, PictureType } from 'node-taglib-sharp-memory/src'
 
 export type AudioQualityType = 'HQ' | 'Hi-Res' | 'SQ'
 
@@ -134,7 +134,7 @@ export function parseMetadata<T extends string | string[] = string[]>(
   }
 
   if (property.bitRate === 0) {
-    property.bitRate = (file.fileAbstraction.size - file.tag.sizeOnDisk) * 8 / property.duration
+    property.bitRate = (file.fileAbstraction.size - (file.tag.sizeOnDisk || 0)) * 8 / property.duration
   }
 
   const quality = parseQualityType(
@@ -155,7 +155,7 @@ export type UpdateTagKey = keyof IAudioTag
 export type UpdateTagValue<T extends UpdateTagKey> = Exclude<IAudioTag[T], undefined>
 
 /**
- * update tag value
+ * update tag value and will not flush to file
  * @param file {@link File} instance
  * @param key tag key
  * @param value tag value
@@ -169,7 +169,7 @@ export function updateTag<T extends UpdateTagKey>(
 }
 
 /**
- * update picture value
+ * update picture value and will not flush to file
  * @param file {@link File} instance
  * @param buffer picture buffer
  * @param fileName picture name with extension
@@ -237,10 +237,10 @@ export function getFileFromPath(filePath: string): File {
 }
 
 /**
- * get current file buffer, return `undefine` if abstraction is not {@link MemoryFileAbstraction}
+ * get current file buffer, return `undefined` if abstraction is not {@link MemoryFileAbstraction}
  * @param file file
  */
-export function getBuffer(file: File): Uint8Array | undefined {
+export function getBufferFromFile(file: File): Uint8Array | undefined {
   const abstraction = file.fileAbstraction
   return abstraction instanceof MemoryFileAbstraction
     ? abstraction.currentBuffer

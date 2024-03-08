@@ -1,7 +1,7 @@
 {
   "name": "node-taglib-sharp-extend",
   "type": "module",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "read and write audio file metadata in nodejs / browser(memory)",
   "author": "subframe7536",
   "license": "LGPL-3.0-or-later",

@@ -95,11 +95,13 @@ more utils are documented by JSDoc
 
 ### Run in browser
 
-if you want to run in browser, you need to polyfill node modules and patch `node-taglib-sharp` for performance
+if you want to run in browser, you need to do some polyfills for node modules
+
+total size: ~270KB (minified + gzip)
 
 #### Polyfills
 
-there is a built-in vite plugin for polyfill, and please confirm that  [`vite-plugin-node-polyfills`](https://github.com/davidmyersdev/vite-plugin-node-polyfills) is installed
+there is a built-in vite plugin for polyfill, and please ensure that [`vite-plugin-node-polyfills`](https://github.com/davidmyersdev/vite-plugin-node-polyfills) is installed (will be installed by default through peerDependencies)
 
 when dev,
 default includes: `['buffer', 'string_decoder', 'stream', 'crypto', 'fs', 'path', 'util']`
@@ -110,18 +112,16 @@ other modules are manually transformed by the plugin
 
 default global: `{ Buffer: true }`
 
+vite config:
 ```ts
 import { defineConfig } from 'vite'
 import { polyfillTaglib } from 'node-taglib-sharp-extend/vite'
 
-export default defineConfig(({ command }) => ({
+export default defineConfig({
   plugins: [
-    polyfillTaglib({
-      isBuild: command === 'build',
-      // extra options
-    }),
+    polyfillTaglib(/* options */),
   ],
-}))
+})
 ```
 
 ##### Web Worker support check

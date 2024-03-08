@@ -40,7 +40,7 @@ const DEV_POLYFILL_MODULES: Exclude<PolyfillOptions['include'], undefined> = [
  * }))
  */
 export function polyfillTaglib(
-  extraOptions: PolyfillOptions & { isBuild: boolean },
+  extraOptions: PolyfillOptions & { isBuild?: boolean } = {},
 ): VitePlugin[] {
   const {
     isBuild,
@@ -56,10 +56,10 @@ export function polyfillTaglib(
   return [
     {
       name: 'taglib-sharp-polyfill',
-      apply() {
-        return isBuild
-      },
-      transform(code, id) {
+      apply: isBuild === undefined
+        ? 'build'
+        : () => isBuild,
+      transform: (code, id) => {
         const transformCode = (fn: (s: MagicString) => MagicString) => {
           const s = new MagicString(code)
           const result = fn(s)

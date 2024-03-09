@@ -19,7 +19,7 @@ describe('test suit', () => {
     trackCount: 0,
     year: 2016,
   } as const
-  ['mp3', 'flac', 'opus', 'wav'].forEach((str) => {
+  ['mp3', 'm4a', 'flac', 'opus', 'wav'].forEach((str) => {
     it(str, () => {
       const fileName = `test.${str}`
       const file = getFileFromBuffer(fileName, readFileSync(`./samples/${fileName}`))

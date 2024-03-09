@@ -97,7 +97,7 @@ export function polyfillTaglib(
             ))
         }
 
-        // remove useless Stream
+        // remove useless Stream class
         if (id.endsWith('taglib/stream.js')) {
           return transformCode(c => c
             // .replace('const fs = require("fs");', '')

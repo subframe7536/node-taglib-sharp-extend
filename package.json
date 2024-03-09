@@ -12,7 +12,7 @@
   "exports": {
     ".": {
       "types": "./dist/taglib/index.d.ts",
-      "require": "./dist/taglib/index.js"
+      "default": "./dist/taglib/index.js"
     },
     "./utils": {
       "import": "./dist/main/index.js",

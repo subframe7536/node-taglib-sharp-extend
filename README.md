@@ -5,7 +5,13 @@ patched [node-taglib-sharp](https://github.com/benrr101/node-taglib-sharp) v5.2.
 ## Install
 
 ```shell
-pnpm add node-taglib-sharp node-taglib-sharp-extend
+npm install node-taglib-sharp-extend
+```
+```shell
+yarn add node-taglib-sharp-extend
+```
+```shell
+pnpm add node-taglib-sharp-extend
 ```
 
 ## Usage

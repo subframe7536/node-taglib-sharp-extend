@@ -1,4 +1,4 @@
-import type { ICodec, IPicture } from 'node-taglib-sharp-memory/src'
+import type { IPicture } from 'node-taglib-sharp-memory/src'
 import { ByteVector, File, MediaTypes, MemoryFileAbstraction, Picture, PictureType } from 'node-taglib-sharp-memory/src'
 
 export type AudioQualityType = 'HQ' | 'Hi-Res' | 'SQ'

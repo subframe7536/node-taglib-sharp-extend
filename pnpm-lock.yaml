@@ -9,10 +9,15 @@ overrides:
   is-typed-array: npm:@nolyfill/is-typed-array@latest
   which-typed-array: npm:@nolyfill/which-typed-array@latest
 
+patchedDependencies:
+  iconv-lite@0.6.3:
+    hash: r7au5dvp63hb57aweuxwmd44jm
+    path: patches/iconv-lite@0.6.3.patch
+
 dependencies:
   iconv-lite:
     specifier: ^0.6.3
-    version: 0.6.3
+    version: 0.6.3(patch_hash=r7au5dvp63hb57aweuxwmd44jm)
   magic-string:
     specifier: '>=0.30'
     version: 0.30.5
@@ -44,7 +49,7 @@ devDependencies:
     version: 0.13.1(eslint@8.57.0)(typescript@5.4.2)
   node-taglib-sharp-memory:
     specifier: github:subframe7536/node-taglib-sharp-mermory#f00bde03706fe7409948cb5559041a2f19252671
-    version: git@github.com+subframe7536/node-taglib-sharp-mermory/f00bde03706fe7409948cb5559041a2f19252671
+    version: git/github.com+subframe7536/node-taglib-sharp-mermory/f00bde03706fe7409948cb5559041a2f19252671
   tsup:
     specifier: ^8.0.2
     version: 8.0.2(typescript@5.4.2)
@@ -2862,11 +2867,12 @@ packages:
     engines: {node: '>=16.17.0'}
     dev: true
 
-  /iconv-lite@0.6.3:
+  /iconv-lite@0.6.3(patch_hash=r7au5dvp63hb57aweuxwmd44jm):
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
     dependencies:
       safer-buffer: 2.1.2
+    patched: true
 
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
@@ -4762,13 +4768,13 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  git@github.com+subframe7536/node-taglib-sharp-mermory/f00bde03706fe7409948cb5559041a2f19252671:
+  git/github.com+subframe7536/node-taglib-sharp-mermory/f00bde03706fe7409948cb5559041a2f19252671:
     resolution: {commit: f00bde03706fe7409948cb5559041a2f19252671, repo: git@github.com:subframe7536/node-taglib-sharp-mermory.git, type: git}
     name: node-taglib-sharp
     version: 5.2.3
     engines: {node: '>=12.16.1'}
     dependencies:
-      iconv-lite: 0.6.3
+      iconv-lite: 0.6.3(patch_hash=r7au5dvp63hb57aweuxwmd44jm)
       os-locale: 4.0.0
       uuid: 8.3.2
     dev: true

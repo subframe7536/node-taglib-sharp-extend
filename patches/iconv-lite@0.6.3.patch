@@ -1,0 +1,32 @@
+diff --git a/lib/index.d.ts b/lib/index.d.ts
+index 99f200f4ab04c365baa41f89070972d5408de410..809a4cd98a9a72115237546acfe2bffb691c651c 100644
+--- a/lib/index.d.ts
++++ b/lib/index.d.ts
+@@ -7,9 +7,9 @@
+ 
+ declare module 'iconv-lite' {
+ 	// Basic API
+-	export function decode(buffer: Buffer, encoding: string, options?: Options): string;
++	export function decode(buffer: Buffer | Uint8Array, encoding: string, options?: Options): string;
+ 
+-	export function encode(content: string, encoding: string, options?: Options): Buffer;
++	export function encode(content: string, encoding: string, options?: Options): Buffer | Uint8Array;
+ 
+ 	export function encodingExists(encoding: string): boolean;
+ 
+@@ -22,6 +22,15 @@ declare module 'iconv-lite' {
+ 	export function getEncoder(encoding: string, options?: Options): EncoderStream;
+ 
+ 	export function getDecoder(encoding: string, options?: Options): DecoderStream;
++	
++	type IconvLite = {
++		decode: typeof decode,
++		encode: typeof encode,
++	}
++
++	const iconvLite: IconvLite
++
++	export default iconvLite
+ }
+ 
+ export interface Options {

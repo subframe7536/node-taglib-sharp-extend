@@ -39,11 +39,14 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=16.7.0"
+  },
   "scripts": {
     "lint": "tsc --noEmit && eslint . --max-warnings 0",
     "format": "eslint . --fix",
     "dev": "tsup --watch",
-    "build": "tsup",
+    "build": "node build.mjs",
     "release": "pnpm test && pnpm run build && bumpp --all && npm publish",
     "test": "vitest --run",
     "test:dev": "vitest tests/bug.test.ts"
@@ -79,6 +82,9 @@
     "vitest": "^1.3.1"
   },
   "pnpm": {
+    "patchedDependencies": {
+      "iconv-lite@0.6.3": "patches/iconv-lite@0.6.3.patch"
+    },
     "overrides": {
       "assert": "npm:@nolyfill/assert@latest",
       "is-typed-array": "npm:@nolyfill/is-typed-array@latest",

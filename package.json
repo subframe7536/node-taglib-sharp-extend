@@ -11,28 +11,28 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/taglib/index.d.ts",
-      "default": "./dist/taglib/index.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
     },
     "./utils": {
-      "import": "./dist/main/index.js",
-      "require": "./dist/main/index.cjs"
+      "import": "./dist/utils.js",
+      "require": "./dist/utils.cjs"
     },
     "./vite": {
-      "import": "./dist/main/vite.js",
-      "require": "./dist/main/vite.cjs"
+      "import": "./dist/vite.js",
+      "require": "./dist/vite.cjs"
     }
   },
-  "main": "./dist/taglib/index.js",
-  "module": "./dist/taglib/index.js",
-  "types": "./dist/taglib/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
       "utils": [
-        "./dist/main/index.d.ts"
+        "./dist/utils.d.ts"
       ],
       "vite": [
-        "./dist/main/vite.d.ts"
+        "./dist/vite.d.ts"
       ]
     }
   },
@@ -43,7 +43,7 @@
     "lint": "tsc --noEmit && eslint . --max-warnings 0",
     "format": "eslint . --fix",
     "dev": "tsup --watch",
-    "build": "tsup && tsc -p ./tsconfig.taglib.json && node fix.mjs",
+    "build": "tsup",
     "release": "pnpm test && pnpm run build && bumpp --all && npm publish",
     "test": "vitest --run",
     "test:dev": "vitest tests/bug.test.ts"
@@ -72,7 +72,7 @@
     "bumpp": "^9.4.0",
     "eslint": "^8.57.0",
     "eslint-plugin-solid": "^0.13.1",
-    "node-taglib-sharp-memory": "github:subframe7536/node-taglib-sharp-mermory#04188810e92de0fdbf77243e058f8b9309654273",
+    "node-taglib-sharp-memory": "github:subframe7536/node-taglib-sharp-mermory#f00bde03706fe7409948cb5559041a2f19252671",
     "tsup": "^8.0.2",
     "typescript": "^5.4.2",
     "vite": "^5.1.5",

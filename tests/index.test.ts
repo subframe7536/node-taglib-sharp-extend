@@ -1,7 +1,7 @@
 import { cpSync, readFileSync, rmSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { File, Picture, type Tag } from 'node-taglib-sharp-memory/src'
-import { flushFile, getFileFromBuffer, parseMetadata } from '../src'
+import { flushFile, getFileFromBuffer, parseMetadata } from '../src/utils'
 
 describe('test suit', () => {
   const dict = {
@@ -32,6 +32,7 @@ describe('test suit', () => {
       console.log(`${property.bitDepth} bit`)
       console.log(`${property.channels} Channels`)
       console.log(`${property.duration} ms`)
+      console.log(`${property.codecs}`)
       file.tag.album = 'test album'
       file.tag.pictures = [Picture.fromPath('./samples/cover.jpg')]
       file.save()

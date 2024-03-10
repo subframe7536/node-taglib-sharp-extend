@@ -9,7 +9,7 @@ export function Info(props: Props) {
   return (
     <div class="flex children:(flex-(~ col justify-center) color-blue-6)">
       <div>
-        <div>
+        <div class="children:(max-w-100 max-h-100 overflow-scroll)">
           <Entries of={props.metadata.tag} fallback={<div>no tag</div>}>
             {(key, value) => (
               <div class="w-20">{key}: {value()}</div>
@@ -22,7 +22,7 @@ export function Info(props: Props) {
             {(key, accessor) => {
               const value = accessor()
               return Array.isArray(value)
-                ? value.map(props => <div>{key}: {props.description}</div>)
+                ? value.map(value => <div>{key}: {value}</div>)
                 : <div>{key}: {value}</div>
             }}
           </Entries>

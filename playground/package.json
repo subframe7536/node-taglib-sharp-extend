@@ -7,7 +7,7 @@
     "preview": "pnpm build && vite preview"
   },
   "dependencies": {
-    "@solid-hooks/core": "^0.1.1",
+    "@solid-hooks/core": "^0.1.2",
     "node-taglib-sharp-extend": "link:..",
     "solid-js": "^1.8.15"
   },

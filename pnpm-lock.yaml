@@ -43,8 +43,8 @@ devDependencies:
     specifier: ^0.13.1
     version: 0.13.1(eslint@8.57.0)(typescript@5.4.2)
   node-taglib-sharp-memory:
-    specifier: github:subframe7536/node-taglib-sharp-mermory#04188810e92de0fdbf77243e058f8b9309654273
-    version: git/github.com+subframe7536/node-taglib-sharp-mermory/04188810e92de0fdbf77243e058f8b9309654273
+    specifier: github:subframe7536/node-taglib-sharp-mermory#f00bde03706fe7409948cb5559041a2f19252671
+    version: git@github.com+subframe7536/node-taglib-sharp-mermory/f00bde03706fe7409948cb5559041a2f19252671
   tsup:
     specifier: ^8.0.2
     version: 8.0.2(typescript@5.4.2)
@@ -4762,8 +4762,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: true
 
-  git/github.com+subframe7536/node-taglib-sharp-mermory/04188810e92de0fdbf77243e058f8b9309654273:
-    resolution: {commit: 04188810e92de0fdbf77243e058f8b9309654273, repo: git@github.com:subframe7536/node-taglib-sharp-mermory.git, type: git}
+  git@github.com+subframe7536/node-taglib-sharp-mermory/f00bde03706fe7409948cb5559041a2f19252671:
+    resolution: {commit: f00bde03706fe7409948cb5559041a2f19252671, repo: git@github.com:subframe7536/node-taglib-sharp-mermory.git, type: git}
     name: node-taglib-sharp
     version: 5.2.3
     engines: {node: '>=12.16.1'}

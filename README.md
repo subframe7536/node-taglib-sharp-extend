@@ -1,6 +1,11 @@
 # node-taglib-sharp-extend
 
-patched [node-taglib-sharp](https://github.com/benrr101/node-taglib-sharp) v5.2.3, add support for file in buffer
+patch [node-taglib-sharp](https://github.com/benrr101/node-taglib-sharp) and add support for file in buffer
+
+backup your file!
+
+known issue:
+- `m4a` maybe corrupt after writing, see [original issue](https://github.com/benrr101/node-taglib-sharp/issues/103#issuecomment-1987243846)
 
 ## Install
 
@@ -50,8 +55,9 @@ const { tag, property, pictures, quality } = parseMetadata(
 updateTag(file, 'title', 'test')
 updatePicture(file, buffer)
 
+// if File is created from buffer and corrupt after flusing, throw CorruptError
 file = flushFile(file)
-console.log(getBufferFromFile(file).length)
+console.log('file size:', getBufferFromFile(file).length)
 
 // browser only
 const [url, clean] = getPictureURL(pictures[0])

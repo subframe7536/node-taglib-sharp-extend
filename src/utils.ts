@@ -74,7 +74,18 @@ export type Metadata<T extends string | string[] = string[]> = {
   tag: IAudioTag<T>
   property: IAudioProperty
   quality: AudioQualityType
+  /**
+   * picture list
+   *
+   * if is not `undefined`, there will be at least one valid picture
+   */
   pictures?: IParsedPicture[]
+  /**
+   * reasons that file metadata is not writable
+   *
+   * if is not `undefined`, there will be at least one reason
+   */
+  unWritableReason?: string[]
 }
 
 function parseQualityType(
@@ -99,6 +110,8 @@ type ArrayableName = Exclude<
 >
 
 export type TransformStringArrayFn<T extends string | string[]> = (rawArray: string[], name: ArrayableName) => T
+
+const atLeastOneElementOrUndefined = <T>(data: T[]): T[] | undefined => data.length ? data : undefined
 
 /**
  * parse file metadata to {@link Metadata}
@@ -154,11 +167,13 @@ export function parseMetadata<T extends string | string[] = string[]>(
     props.bitsPerSample,
     props.audioSampleRate,
   )
+
   return {
     tag,
     property,
     quality,
-    pictures: pictures.length ? pictures : undefined,
+    pictures: atLeastOneElementOrUndefined(pictures),
+    unWritableReason: atLeastOneElementOrUndefined(file.corruptionReasons),
   }
 }
 
@@ -259,16 +274,30 @@ export function getBufferFromFile(file: File): Uint8Array | undefined {
     : undefined
 }
 
+export class CorruptError extends Error {
+  constructor(
+    public reasons: string[],
+  ) {
+    super(`fail to flush file, ${reasons}`)
+  }
+}
+
 /**
  * flush file instance, auto handle memory file
  * @param file {@link File} instance
+ * @throws if `file` is created from buffer and corrupt after flusing, throw {@link CorruptError}
  */
 export function flushFile(file: File): File {
   file.save()
   const abstraction = file.fileAbstraction
-  return abstraction instanceof MemoryFileAbstraction
-    ? getFileFromBuffer(abstraction.name, abstraction.currentBuffer)
-    : file
+  if (!(abstraction instanceof MemoryFileAbstraction)) {
+    return file
+  }
+  const result = getFileFromBuffer(abstraction.name, abstraction.currentBuffer)
+  if (!result.isWritable) {
+    throw new CorruptError(result.corruptionReasons)
+  }
+  return result
 }
 
 /**

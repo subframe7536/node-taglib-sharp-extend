@@ -113,7 +113,7 @@ total size: ~270KB (minified + gzip)
 
 #### Polyfills
 
-there is a built-in vite plugin for polyfill, and please ensure that [`vite-plugin-node-polyfills`](https://github.com/davidmyersdev/vite-plugin-node-polyfills) is installed (will be installed by default through peerDependencies)
+there is a built-in vite plugin for polyfill, and please ensure that [`vite-plugin-node-polyfills`](https://github.com/davidmyersdev/vite-plugin-node-polyfills) is installed
 
 when dev,
 default includes: `['buffer', 'string_decoder', 'stream', 'crypto', 'fs', 'path', 'util']`

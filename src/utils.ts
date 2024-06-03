@@ -71,21 +71,26 @@ export type IAudioProperty = {
 }
 
 export type Metadata<T extends string | string[] = string[]> = {
+  /**
+   * audio tag
+   */
   tag: IAudioTag<T>
+  /**
+   * audio property
+   */
   property: IAudioProperty
+  /**
+   * audio quality literal
+   */
   quality: AudioQualityType
   /**
    * picture list
-   *
-   * if is not `undefined`, there will be at least one valid picture
    */
-  pictures?: IParsedPicture[]
+  pictures: IParsedPicture[]
   /**
    * reasons that file metadata is not writable
-   *
-   * if is not `undefined`, there will be at least one reason
    */
-  unWritableReason?: string[]
+  unwritableReason: string[]
 }
 
 function parseQualityType(
@@ -110,8 +115,6 @@ type ArrayableName = Exclude<
 >
 
 export type TransformStringArrayFn<T extends string | string[]> = (rawArray: string[], name: ArrayableName) => T
-
-const atLeastOneElementOrUndefined = <T>(data: T[]): T[] | undefined => data.length ? data : undefined
 
 /**
  * parse file metadata to {@link Metadata}
@@ -172,8 +175,8 @@ export function parseMetadata<T extends string | string[] = string[]>(
     tag,
     property,
     quality,
-    pictures: atLeastOneElementOrUndefined(pictures),
-    unWritableReason: atLeastOneElementOrUndefined(file.corruptionReasons),
+    pictures,
+    unwritableReason: file.corruptionReasons,
   }
 }
 

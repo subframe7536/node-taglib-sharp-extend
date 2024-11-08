@@ -1,7 +1,8 @@
+/* eslint-disable antfu/no-import-dist */
 import { cpSync, readFileSync, rmSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { File, Picture, type Tag } from 'node-taglib-sharp-memory/src'
-import { flushFile, getFileFromBuffer, parseMetadata } from '../src/utils'
+import { File, Picture, type Tag } from '../dist'
+import { flushFile, getFileFromBuffer, parseMetadata } from '../dist/utils'
 
 describe('test suit', () => {
   const dict = {

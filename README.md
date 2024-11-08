@@ -5,7 +5,7 @@ patch [node-taglib-sharp](https://github.com/benrr101/node-taglib-sharp) and add
 backup your file!
 
 known issue:
-- `m4a` maybe corrupt after writing, see [original issue](https://github.com/benrr101/node-taglib-sharp/issues/103#issuecomment-1987243846)
+- ~~`m4a` maybe corrupt after writing, see [original issue](https://github.com/benrr101/node-taglib-sharp/issues/103#issuecomment-1987243846)~~ Seems be solved, see [original PR](https://github.com/benrr101/node-taglib-sharp/pull/108)
 
 ## Install
 

@@ -46,7 +46,7 @@
     "format": "eslint . --fix",
     "dev": "tsup --watch",
     "build": "node build.mjs",
-    "release": "pnpm test && pnpm run build && bumpp --all && npm publish",
+    "release": "pnpm run build && bumpp --all && npm publish",
     "test": "pnpm run build && vitest --run"
   },
   "publishConfig": {

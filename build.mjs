@@ -26,6 +26,7 @@ await build({
   dts: true,
   cjsInterop: true,
   shims: true,
+  treeshake: true,
   tsconfig: './tsconfig.taglib.json',
   external: ['vite', 'esbuild'],
 })

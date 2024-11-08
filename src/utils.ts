@@ -224,7 +224,7 @@ export function updatePicture(
  * check if support in Web Worker
  */
 export async function checkWebWorkerSupport(): Promise<boolean> {
-  const inner = () => !!globalThis.crypto.getRandomValues
+  const inner = (): boolean => !!globalThis.crypto.getRandomValues
   if ('importScripts' in globalThis) {
     return inner()
   }

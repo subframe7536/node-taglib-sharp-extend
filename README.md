@@ -126,8 +126,8 @@ default global: `{ Buffer: true }`
 
 vite config:
 ```ts
-import { defineConfig } from 'vite'
 import { polyfillTaglib } from 'node-taglib-sharp-extend/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [

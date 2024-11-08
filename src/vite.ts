@@ -1,6 +1,6 @@
-import MagicString from 'magic-string'
 import type { Plugin as VitePlugin } from 'vite'
 import type { PolyfillOptions } from 'vite-plugin-node-polyfills'
+import MagicString from 'magic-string'
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 /**
@@ -59,7 +59,7 @@ export function polyfillTaglib(
       apply: isBuild === undefined
         ? 'build'
         : () => isBuild,
-      transform: (code, id) => {
+      transform: (code: string, id: string) => {
         if (id.includes('taglib-sharp-extend') && code.includes('import IConv from "iconv-lite"')) {
           const s = new MagicString(code)
           const result = s
@@ -67,10 +67,10 @@ export function polyfillTaglib(
             .replace('import * as crypto from "crypto";', '')
             .replace('randomFillSync', 'getRandomValues')
             // remove fs/path
-            .replace(/import \* as fs(?:2)? from "fs";/g, '')
+            .replace(/import \* as fs2? from "fs";/g, '')
             .replace('import * as Path from "path";', '')
             // remove useless node related class
-            .replace(/(var [LocalFileAbstraction|Stream] = class {[\s\S]*?};)/, '')
+            .replace(/(var [LocalFieAbstrn|Sm] = class \{[\s\S]*?\};)/, '')
             // remove createFromPath in taglib/files.js
             .replace(
               'return _File.createInternal(new LocalFileAbstraction(filePath), mimeType, propertiesStyle)',

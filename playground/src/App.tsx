@@ -1,6 +1,6 @@
-import { Show, Suspense, createSignal } from 'solid-js'
-import { Info } from './info'
+import { createSignal, Show, Suspense } from 'solid-js'
 import { useMetadata } from './hook'
+import { Info } from './info'
 
 export function App() {
   const [file, setFile] = createSignal<File>()
@@ -19,13 +19,17 @@ export function App() {
     <>
       <div>
         <span>
-          load file: <input
+          load file:
+          {' '}
+          <input
             type="file"
             onChange={({ target }) => handleChange(target, handleLoad)}
           />
         </span>
         <span>
-          update picture: <input
+          update picture:
+          {' '}
+          <input
             type="file"
             onChange={({ target }) => handleChange(target, handleUpdatePicture)}
           />

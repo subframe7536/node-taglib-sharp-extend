@@ -1,18 +1,18 @@
+import type { AnyFunction } from '@subframe7536/type-utils'
 import {
-  type IParsedPicture,
-  type Metadata,
-  type UpdateTagKey,
-  type UpdateTagValue,
   updatePicture as _updatePicture,
   updateTag as _updateTag,
   flushFile,
   getBufferFromFile,
   getFileFromBuffer,
   getPictureURL,
+  type IParsedPicture,
+  type Metadata,
   parseMetadata,
+  type UpdateTagKey,
+  type UpdateTagValue,
 } from 'node-taglib-sharp-extend/utils'
 import { type Accessor, batch, createMemo, createResource, onCleanup } from 'solid-js'
-import type { AnyFunction } from '@subframe7536/type-utils'
 
 function downloadUint8ArrayAsFile(uint8Array: Uint8Array, fileName: string) {
   const url = URL.createObjectURL(

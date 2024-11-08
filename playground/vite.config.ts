@@ -1,6 +1,6 @@
+import uno from 'unocss/vite'
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import solid from 'vite-plugin-solid'
-import uno from 'unocss/vite'
 import { polyfillTaglib } from '../src/vite'
 
 export default defineConfig(() => ({

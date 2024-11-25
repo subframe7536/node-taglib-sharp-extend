@@ -1,4 +1,4 @@
-import type { Metadata } from 'node-taglib-sharp-extend/utils'
+import type { Metadata } from 'node-taglib-sharp-extend'
 import { Entries } from '@solid-primitives/keyed'
 
 type Props = {

@@ -11,7 +11,7 @@ import {
   parseMetadata,
   type UpdateTagKey,
   type UpdateTagValue,
-} from 'node-taglib-sharp-extend/utils'
+} from 'node-taglib-sharp-extend'
 import { type Accessor, batch, createMemo, createResource, onCleanup } from 'solid-js'
 
 function downloadUint8ArrayAsFile(uint8Array: Uint8Array, fileName: string) {

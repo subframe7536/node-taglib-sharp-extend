@@ -1,5 +1,5 @@
-import type { IPicture } from 'node-taglib-sharp-memory/src'
-import { ByteVector, File, MediaTypes, MemoryFileAbstraction, Picture, PictureType } from 'node-taglib-sharp-memory/src'
+import type { IPicture } from '../node-taglib-sharp-memory/src'
+import { ByteVector, File, MediaTypes, MemoryFileAbstraction, Picture, PictureType } from '../node-taglib-sharp-memory/src'
 
 export type AudioQualityType = 'HQ' | 'Hi-Res' | 'SQ'
 
@@ -309,7 +309,7 @@ export function flushFile(file: File): File {
  */
 export function getPictureURL(picture: IParsedPicture): [url: string, clean: VoidFunction] {
   const url = URL.createObjectURL(
-    new Blob([picture.data.buffer], { type: picture.mimeType }),
+    new Blob([picture.data], { type: picture.mimeType }),
   )
   return [url, () => URL.revokeObjectURL(url)]
 }
@@ -329,7 +329,7 @@ export async function getPictureBase64(
     resolve => reader.onload = () => resolve(reader.result as string),
   )
   let type = 'application/octet-stream'
-  let blob = new Blob([picture.data.buffer], { type })
+  let blob = new Blob([picture.data], { type })
   reader.readAsDataURL(blob)
   return (await promise).replace(type, picture.mimeType) as any
 }

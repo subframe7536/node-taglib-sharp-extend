@@ -14,10 +14,6 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./utils": {
-      "import": "./dist/utils.js",
-      "require": "./dist/utils.cjs"
-    },
     "./vite": {
       "import": "./dist/vite.js",
       "require": "./dist/vite.cjs"
@@ -28,9 +24,6 @@
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
-      "utils": [
-        "./dist/utils.d.ts"
-      ],
       "vite": [
         "./dist/vite.d.ts"
       ]
@@ -45,7 +38,7 @@
   "scripts": {
     "format": "eslint . --fix",
     "dev": "tsup --watch",
-    "build": "node build.mjs",
+    "build": "tsup",
     "release": "pnpm run build && bumpp --all && npm publish",
     "test": "pnpm run build && vitest --run"
   },
@@ -67,20 +60,19 @@
   },
   "dependencies": {
     "iconv-lite": "^0.6.3",
-    "uuid": "^11.0.2"
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
-    "@subframe7536/eslint-config": "^0.9.6",
+    "@subframe7536/eslint-config": "^0.9.7",
     "@subframe7536/type-utils": "^0.1.6",
-    "@types/node": "^20.17.6",
+    "@types/node": "^22.9.3",
     "bumpp": "^9.8.1",
-    "eslint": "^9.14.0",
-    "eslint-plugin-solid": "^0.14.3",
-    "node-taglib-sharp-memory": "github:subframe7536/node-taglib-sharp-mermory#ce2b8eff4b77d8ad905cf25adc77b38f67566117",
+    "eslint": "^9.15.0",
+    "eslint-plugin-solid": "^0.14.4",
     "tsup": "^8.3.5",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.10",
-    "vitest": "^2.1.4"
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.5"
   },
   "pnpm": {
     "patchedDependencies": {

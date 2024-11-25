@@ -1,0 +1,3 @@
+[submodule "node-taglib-sharp-memory"]
+	path = node-taglib-sharp-memory
+	url = https://github.com/subframe7536/node-taglib-sharp-memory.git

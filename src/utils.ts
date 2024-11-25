@@ -161,7 +161,7 @@ export function parseMetadata<T extends string | string[] = string[]>(
     codecs: props.codecs.filter(Boolean).map(c => c.description),
   }
 
-  if (property.bitRate === 0) {
+  if (!property.bitRate) {
     property.bitRate = ~~((file.fileAbstraction.size - (file.tag.sizeOnDisk || 0)) * 8 / property.duration)
   }
 

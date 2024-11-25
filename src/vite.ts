@@ -11,7 +11,6 @@ const DEV_POLYFILL_MODULES: Exclude<PolyfillOptions['include'], undefined> = [
   'stream',
   'crypto',
   'fs',
-  'path',
   'util',
 ]
 

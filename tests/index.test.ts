@@ -1,8 +1,7 @@
-/* eslint-disable antfu/no-import-dist */
 import { cpSync, readFileSync, rmSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
-import { File, Picture, type Tag } from '../dist'
-import { flushFile, getFileFromBuffer, parseMetadata } from '../dist/utils'
+import { createFileFromBuffer, createFileFromPath, createPicturefromPath, type Tag } from '../dist/index.js'
+import { flushFile, createFileFromBuffer as getFileFromBuffer, parseMetadata } from '../dist/index.js'
 
 describe('test suit', () => {
   const dict = {
@@ -35,7 +34,7 @@ describe('test suit', () => {
       console.log(`${property.duration} ms`)
       console.log(`${property.codecs}`)
       file.tag.album = 'test album'
-      file.tag.pictures = [Picture.fromPath('./samples/cover.jpg')]
+      file.tag.pictures = [createPicturefromPath('./samples/cover.jpg')]
       file.save()
     })
   })
@@ -43,17 +42,17 @@ describe('test suit', () => {
     const source = `./samples/1111.mp3`
     const target = `./samples/temp.mp3`
     cpSync(source, target)
-    const file = File.createFromPath(target)
+    const file = createFileFromPath(target)
     file.tag.album = 'test album'
-    file.tag.pictures = [Picture.fromPath('./samples/cover.jpg')]
+    file.tag.pictures = [createPicturefromPath('./samples/cover.jpg')]
     file.save()
     rmSync(target)
   })
   it('large file (memory)', () => {
     const fileName = `1111.mp3`
-    let file = File.createFromBuffer(fileName, readFileSync(`./samples/${fileName}`))
+    let file = createFileFromBuffer(fileName, readFileSync(`./samples/${fileName}`))
     file.tag.album = 'test album'
-    file.tag.pictures = [Picture.fromPath('./samples/cover.jpg')]
+    file.tag.pictures = [createPicturefromPath('./samples/cover.jpg')]
     file.tag.genres = ['test:111']
     file = flushFile(file)
     console.log(file.properties.codecs[0].description)

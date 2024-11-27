@@ -1,7 +1,6 @@
 import { cpSync, rmSync } from 'node:fs'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-// eslint-disable-next-line antfu/no-import-dist
-import { flushFile, getFileFromPath, updateTag } from '../dist/utils'
+import { createFileFromPath, flushFile, updateTag } from '../dist/index.js'
 
 const targetPath = './samples/bug_test.m4a'
 describe('test', () => {
@@ -12,10 +11,10 @@ describe('test', () => {
     rmSync(targetPath)
   })
   it('asd', () => {
-    const file = getFileFromPath(targetPath)
+    const file = createFileFromPath(targetPath)
     updateTag(file, 'title', 'asd')
     expect(file.corruptionReasons).toStrictEqual([])
     flushFile(file)
-    expect(getFileFromPath(targetPath).corruptionReasons).toStrictEqual([])
+    expect(createFileFromPath(targetPath).corruptionReasons).toStrictEqual([])
   })
 })

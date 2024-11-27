@@ -1,5 +1,9 @@
-import type { IPicture } from '../node-taglib-sharp-memory/src/index.js'
-import { ByteVector, File, MediaTypes, MemoryFileAbstraction, Picture, PictureType } from '../node-taglib-sharp-memory/src/index.js'
+import { createFileFromBuffer, createLazyPicturefromBuffer } from '../node-taglib-sharp-memory/src/abstraction/memory/index.js'
+import { MemoryFileAbstraction } from '../node-taglib-sharp-memory/src/abstraction/memory/memoryFileAbstraction.js'
+import { ByteVector } from '../node-taglib-sharp-memory/src/byteVector.js'
+import { CorruptFileError, type File, type IPicture } from '../node-taglib-sharp-memory/src/index.js'
+import { Picture, PictureType } from '../node-taglib-sharp-memory/src/picture.js'
+import { MediaTypes } from '../node-taglib-sharp-memory/src/properties.js'
 
 export type AudioQualityType = 'HQ' | 'Hi-Res' | 'SQ'
 
@@ -206,11 +210,11 @@ export function updateTag<T extends UpdateTagKey>(
  */
 export function updatePicture(
   file: File,
-  buffer: Uint8Array | Buffer | number[],
+  buffer: Uint8Array,
   fileName?: string,
 ): boolean {
   const pic = fileName
-    ? Picture.fromBuffer(fileName, buffer)
+    ? createLazyPicturefromBuffer(fileName, buffer)
     : Picture.fromData(ByteVector.fromByteArray(buffer))
   if (pic.type === PictureType.NotAPicture) {
     return false
@@ -250,23 +254,6 @@ export async function checkWebWorkerSupport(): Promise<boolean> {
 }
 
 /**
- * create new {@link File} from buffer
- * @param fileName file name that includes extension
- * @param buffer buffer
- */
-export function getFileFromBuffer(fileName: string, buffer: Uint8Array | Buffer | number[]): File {
-  return File.createFromBuffer(fileName, buffer)
-}
-
-/**
- * create new {@link File} from path
- * @param filePath file path
- */
-export function getFileFromPath(filePath: string): File {
-  return File.createFromPath(filePath)
-}
-
-/**
  * get current file buffer, return `undefined` if abstraction is not {@link MemoryFileAbstraction}
  * @param file file
  */
@@ -277,18 +264,10 @@ export function getBufferFromFile(file: File): Uint8Array | undefined {
     : undefined
 }
 
-export class CorruptError extends Error {
-  constructor(
-    public reasons: string[],
-  ) {
-    super(`fail to flush file, ${reasons}`)
-  }
-}
-
 /**
  * flush file instance, auto handle memory file
  * @param file {@link File} instance
- * @throws if `file` is created from buffer and corrupt after flusing, throw {@link CorruptError}
+ * @throws if `file` is created from buffer and corrupt after flusing, throw {@link CorruptFileError}
  */
 export function flushFile(file: File): File {
   file.save()
@@ -296,9 +275,9 @@ export function flushFile(file: File): File {
   if (!(abstraction instanceof MemoryFileAbstraction)) {
     return file
   }
-  const result = getFileFromBuffer(abstraction.name, abstraction.currentBuffer)
+  const result = createFileFromBuffer(abstraction.name, abstraction.currentBuffer)
   if (!result.isWritable) {
-    throw new CorruptError(result.corruptionReasons)
+    throw new CorruptFileError(result.corruptionReasons.join(';'))
   }
   return result
 }

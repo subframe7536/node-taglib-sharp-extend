@@ -2,9 +2,9 @@ import type { AnyFunction } from '@subframe7536/type-utils'
 import {
   updatePicture as _updatePicture,
   updateTag as _updateTag,
+  createFileFromBuffer,
   flushFile,
   getBufferFromFile,
-  getFileFromBuffer,
   getPictureURL,
   type IParsedPicture,
   type Metadata,
@@ -42,7 +42,7 @@ export function useMetadata(
   file: Accessor<File | undefined>,
 ): Result {
   const [metaFile, { mutate }] = createResource(file, async (file) => {
-    return getFileFromBuffer(
+    return createFileFromBuffer(
       file.name,
       new Uint8Array(await file.arrayBuffer()),
     )
@@ -54,12 +54,13 @@ export function useMetadata(
       return undefined
     }
     const { pictures, ...rest } = parseMetadata(meta, arr => arr.flatMap(a => a.split('; ')))
-    let picture: string | IParsedPicture | undefined = pictures?.[0]
-    if (!picture) {
+    const _picture = pictures?.[0]
+    let picture: string | undefined
+    if (!_picture) {
       picture = undefined
     } else {
       clean?.()
-      ;[picture, clean] = getPictureURL(picture)
+      ;[picture, clean] = getPictureURL(_picture)
       onCleanup(clean)
     }
     return { ...rest, picture }
@@ -81,7 +82,7 @@ export function useMetadata(
     }
     const buffer = new Uint8Array(await file.arrayBuffer())
     batch(() => _updatePicture(meta, buffer, file.name))
-    mutate(flushFile(meta))
+    mutate(await flushFile(meta))
   }
   function download() {
     const meta = metaFile()

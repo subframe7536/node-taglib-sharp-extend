@@ -3,7 +3,7 @@
 Patch [node-taglib-sharp](https://github.com/benrr101/node-taglib-sharp) with:
 
 - Some utils with corrected types, narrow exports
-- Read / Write support for file in buffer
+- Read / Write support for file in buffer, detach `createFromPath` in `File`
 - Fresh dependencies and reduce `Node` dependencies
 - Provide `Vite` plugin for webapp
 

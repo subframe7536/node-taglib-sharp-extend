@@ -1,9 +1,9 @@
-import { createFileFromBuffer, createLazyPicturefromBuffer } from '../node-taglib-sharp-memory/src/abstraction/memory/index.js'
-import { MemoryFileAbstraction } from '../node-taglib-sharp-memory/src/abstraction/memory/memoryFileAbstraction.js'
-import { ByteVector } from '../node-taglib-sharp-memory/src/byteVector.js'
-import { CorruptFileError, type File, type IPicture } from '../node-taglib-sharp-memory/src/index.js'
-import { Picture, PictureType } from '../node-taglib-sharp-memory/src/picture.js'
-import { MediaTypes } from '../node-taglib-sharp-memory/src/properties.js'
+import { createFileFromBuffer, createLazyPicturefromBuffer } from '../node-taglib-sharp-memory/src/abstraction/memory/index'
+import { MemoryFileAbstraction } from '../node-taglib-sharp-memory/src/abstraction/memory/memoryFileAbstraction'
+import { ByteVector } from '../node-taglib-sharp-memory/src/byteVector'
+import { CorruptFileError, type File, type IPicture } from '../node-taglib-sharp-memory/src/index'
+import { Picture, PictureType } from '../node-taglib-sharp-memory/src/picture'
+import { MediaTypes } from '../node-taglib-sharp-memory/src/properties'
 
 export type AudioQualityType = 'HQ' | 'Hi-Res' | 'SQ'
 

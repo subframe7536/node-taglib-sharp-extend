@@ -22,7 +22,7 @@ export {
   StringType,
   Tag,
   TagTypes,
-} from '../node-taglib-sharp-memory/src/index.js'
+} from '../node-taglib-sharp-memory/src/index'
 
 export type {
   IAudioCodec,
@@ -31,6 +31,6 @@ export type {
   ILosslessAudioCodec,
   IStream,
   IVideoCodec,
-} from '../node-taglib-sharp-memory/src/index.js'
+} from '../node-taglib-sharp-memory/src/index'
 
-export * from './utils.js'
+export * from './utils'

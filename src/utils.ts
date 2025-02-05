@@ -232,25 +232,22 @@ export async function checkWebWorkerSupport(): Promise<boolean> {
   if ('importScripts' in globalThis) {
     return inner()
   }
-  try {
-    const url = URL.createObjectURL(new Blob([`postMessage((${inner})())`]))
-    const worker = new Worker(url)
 
-    const result = await new Promise<boolean>((resolve) => {
-      worker.onmessage = ({ data }) => {
-        resolve(data)
-      }
-      worker.onerror = (err) => {
-        err.preventDefault()
-        resolve(false)
-      }
+  const url = URL.createObjectURL(new Blob([`postMessage((${inner})())`]))
+  const worker = new Worker(url)
+  return new Promise<boolean>((resolve) => {
+    worker.onmessage = ({ data }) => resolve(data)
+    worker.onerror = (err) => {
+      err.preventDefault()
+      resolve(false)
+    }
+  })
+    .then(result => result)
+    .catch(() => false)
+    .finally(() => {
+      worker.terminate()
+      URL.revokeObjectURL(url)
     })
-    worker.terminate()
-    URL.revokeObjectURL(url)
-    return result
-  } catch {
-    return false
-  }
 }
 
 /**

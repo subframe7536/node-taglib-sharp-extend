@@ -146,12 +146,12 @@ export function parseMetadata<T extends string | string[] = string[]>(
   }
   const pictures = file.tag.pictures
     .filter(pic => pic.type !== PictureType.NotAPicture)
-    .map(picture => ({
-      data: picture.data.toByteArray(),
-      description: picture.description,
-      filename: picture.filename,
-      mimeType: picture.mimeType,
-      coverType: picture.type,
+    .map(({ data, description, filename, mimeType, type }) => ({
+      data: data.toByteArray(),
+      description,
+      filename,
+      mimeType,
+      coverType: type,
     } satisfies IParsedPicture))
 
   // cannot destructure because they are getters in class instead of real properties

@@ -57,7 +57,7 @@ const { tag, property, pictures, quality, unwritableReason } = parseMetadata(
 updateTag(file, 'title', 'test')
 updatePicture(file, buffer)
 
-// if File is created from buffer and corrupt after flusing, throw CorruptError
+// if `File` is created from buffer and corrupt after flushing, throw `CorruptError`
 file = flushFile(file)
 console.log('file size:', getBufferFromFile(file).length)
 
@@ -96,6 +96,8 @@ export type IAudioProperty = {
   channels: number
   codecs: ICodec[]
 }
+
+export type AudioQualityType = 'HQ' | 'Hi-Res' | 'SQ'
 
 export type Metadata<T extends string | string[] = string[]> = {
   tag: IAudioTag<T>

@@ -82,7 +82,7 @@ export function useMetadata(
     }
     const buffer = new Uint8Array(await file.arrayBuffer())
     batch(() => _updatePicture(meta, buffer, file.name))
-    mutate(await flushFile(meta))
+    mutate(flushFile(meta))
   }
   function download() {
     const meta = metaFile()

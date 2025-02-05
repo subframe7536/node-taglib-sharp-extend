@@ -7,24 +7,24 @@
     "preview": "pnpm build && vite preview"
   },
   "dependencies": {
-    "@solid-hooks/core": "^0.4.1",
+    "@solid-hooks/core": "^0.4.2",
     "node-taglib-sharp-extend": "link:..",
-    "solid-js": "^1.9.3"
+    "solid-js": "^1.9.4"
   },
   "devDependencies": {
-    "@solid-primitives/keyed": "^1.2.3",
-    "@unocss/reset": "^0.64.1",
-    "unocss": "^0.64.1",
-    "vite": "^5.4.11",
-    "vite-plugin-node-polyfills": "^0.22.0",
-    "vite-plugin-solid": "^2.10.2"
+    "@solid-primitives/keyed": "^1.5.0",
+    "@unocss/reset": "^65.4.3",
+    "unocss": "^65.4.3",
+    "vite": "^6.0.11",
+    "vite-plugin-node-polyfills": "^0.23.0",
+    "vite-plugin-solid": "^2.11.1"
   },
   "pnpm": {
     "overrides": {
-      "assert": "npm:@nolyfill/assert@latest",
-      "hasown": "npm:@nolyfill/hasown@latest",
-      "is-typed-array": "npm:@nolyfill/is-typed-array@latest",
-      "which-typed-array": "npm:@nolyfill/which-typed-array@latest"
+      "is-arguments": "npm:@nolyfill/is-arguments@^1",
+      "is-core-module": "npm:@nolyfill/is-core-module@^1",
+      "is-generator-function": "npm:@nolyfill/is-generator-function@^1",
+      "side-channel": "npm:@nolyfill/side-channel@^1"
     }
   }
 }

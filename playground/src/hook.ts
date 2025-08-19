@@ -1,4 +1,7 @@
 import type { AnyFunction } from '@subframe7536/type-utils'
+import type { Metadata, UpdateTagKey, UpdateTagValue } from 'node-taglib-sharp-extend'
+import type { Accessor } from 'solid-js'
+
 import {
   updatePicture as _updatePicture,
   updateTag as _updateTag,
@@ -6,15 +9,11 @@ import {
   flushFile,
   getBufferFromFile,
   getPictureURL,
-  type IParsedPicture,
-  type Metadata,
   parseMetadata,
-  type UpdateTagKey,
-  type UpdateTagValue,
 } from 'node-taglib-sharp-extend'
-import { type Accessor, batch, createMemo, createResource, onCleanup } from 'solid-js'
+import { batch, createMemo, createResource, onCleanup } from 'solid-js'
 
-function downloadUint8ArrayAsFile(uint8Array: Uint8Array, fileName: string) {
+function downloadUint8ArrayAsFile(uint8Array: Uint8Array<ArrayBuffer>, fileName: string) {
   const url = URL.createObjectURL(
     new Blob([uint8Array], { type: 'application/octet-stream' }),
   )

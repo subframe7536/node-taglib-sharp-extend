@@ -1,14 +1,19 @@
-import { createFileFromBuffer, createLazyPicturefromBuffer } from '../node-taglib-sharp-memory/src/abstraction/memory/index'
+import type { File, IPicture } from '../node-taglib-sharp-memory/src/index'
+
+import {
+  createFileFromBuffer,
+  createLazyPicturefromBuffer,
+} from '../node-taglib-sharp-memory/src/abstraction/memory/index'
 import { MemoryFileAbstraction } from '../node-taglib-sharp-memory/src/abstraction/memory/memoryFileAbstraction'
 import { ByteVector } from '../node-taglib-sharp-memory/src/byteVector'
-import { CorruptFileError, type File, type IPicture } from '../node-taglib-sharp-memory/src/index'
+import { CorruptFileError } from '../node-taglib-sharp-memory/src/index'
 import { Picture, PictureType } from '../node-taglib-sharp-memory/src/picture'
 import { MediaTypes } from '../node-taglib-sharp-memory/src/properties'
 
 export type AudioQualityType = 'HQ' | 'Hi-Res' | 'SQ'
 
 export type IParsedPicture = Omit<IPicture, 'data' | 'type'> & {
-  data: Uint8Array
+  data: Uint8Array<ArrayBuffer>
   coverType: PictureType
 }
 
@@ -147,7 +152,7 @@ export function parseMetadata<T extends string | string[] = string[]>(
   const pictures = file.tag.pictures
     .filter(pic => pic.type !== PictureType.NotAPicture)
     .map(({ data, description, filename, mimeType, type }) => ({
-      data: data.toByteArray(),
+      data: data.toByteArray() as Uint8Array<ArrayBuffer>,
       description,
       filename,
       mimeType,
@@ -254,10 +259,10 @@ export async function checkWebWorkerSupport(): Promise<boolean> {
  * get current file buffer, return `undefined` if abstraction is not {@link MemoryFileAbstraction}
  * @param file file
  */
-export function getBufferFromFile(file: File): Uint8Array | undefined {
+export function getBufferFromFile(file: File): Uint8Array<ArrayBuffer> | undefined {
   const abstraction = file.fileAbstraction
   return abstraction instanceof MemoryFileAbstraction
-    ? abstraction.currentBuffer
+    ? new Uint8Array(abstraction.currentBuffer)
     : undefined
 }
 

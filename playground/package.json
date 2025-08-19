@@ -7,24 +7,26 @@
     "preview": "pnpm build && vite preview"
   },
   "dependencies": {
-    "@solid-hooks/core": "^0.4.2",
+    "@solid-hooks/core": "^0.6.0",
     "node-taglib-sharp-extend": "link:..",
-    "solid-js": "^1.9.4"
+    "solid-js": "^1.9.9"
   },
   "devDependencies": {
-    "@solid-primitives/keyed": "^1.5.0",
-    "@unocss/reset": "^65.4.3",
-    "unocss": "^65.4.3",
-    "vite": "^6.0.11",
-    "vite-plugin-node-polyfills": "^0.23.0",
-    "vite-plugin-solid": "^2.11.1"
+    "@solid-primitives/keyed": "^1.5.2",
+    "@unocss/reset": "^66.4.2",
+    "unocss": "^66.4.2",
+    "vite": "^7.1.2",
+    "vite-plugin-solid": "^2.11.8"
   },
   "pnpm": {
     "overrides": {
-      "is-arguments": "npm:@nolyfill/is-arguments@^1",
-      "is-core-module": "npm:@nolyfill/is-core-module@^1",
-      "is-generator-function": "npm:@nolyfill/is-generator-function@^1",
-      "side-channel": "npm:@nolyfill/side-channel@^1"
-    }
+      "is-arguments": "npm:@nolyfill/is-arguments@^1.0.44",
+      "is-core-module": "npm:@nolyfill/is-core-module@^1.0.39",
+      "is-generator-function": "npm:@nolyfill/is-generator-function@^1.0.44",
+      "side-channel": "npm:@nolyfill/side-channel@^1.0.44"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

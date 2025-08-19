@@ -1,7 +1,7 @@
 import type { Plugin as VitePlugin } from 'vite'
 import type { PolyfillOptions } from 'vite-plugin-node-polyfills'
+
 import MagicString from 'magic-string'
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 /**
  * modules that need to be polyfilled at dev:
@@ -38,9 +38,9 @@ const DEV_POLYFILL_MODULES: Exclude<PolyfillOptions['include'], undefined> = [
  *   ],
  * }))
  */
-export function polyfillTaglib(
+export async function polyfillTaglib(
   extraOptions: PolyfillOptions & { isBuild?: boolean } = {},
-): VitePlugin[] {
+): Promise<VitePlugin<any>[]> {
   const {
     isBuild,
     include = [],
@@ -50,55 +50,32 @@ export function polyfillTaglib(
 
   include.push('buffer', 'string_decoder')
 
-  !isBuild && include.push(...DEV_POLYFILL_MODULES)
+  if (!isBuild) {
+    include.push(...DEV_POLYFILL_MODULES)
+  }
+
+  let nodePolyfills
+  try {
+    nodePolyfills = await import('vite-plugin-node-polyfills').then(m => m.nodePolyfills)
+  } catch {
+    throw new Error('Package `vite-plugin-node-polyfills` is not installed')
+  }
 
   return [
     {
       name: 'taglib-sharp-polyfill',
       enforce: 'pre',
-      apply: isBuild === undefined
-        ? 'build'
-        : () => isBuild,
-      transform(code: string, id: string) {
-        // remove stream polyfill, no sourcemap
-        if (!id.includes('node-taglib-sharp-extend/dist')) {
-          return
-        }
-        if (code.match(/import \* as crypto from ["']crypto["'];/)) {
-          // replace node:crypto.randomFillSync with crypto.getRandomValues in matroskaAttachment.js
-          const s = new MagicString(code)
-            .replace(/import \* as crypto from ["']crypto["'];/, '')
-            .replace('randomFillSync', 'getRandomValues')
-            // remove fs
-            .replace(/import \* as fs from ["']fs["'];/, '')
-            // .replace('import * as Path from "path";', '')
-            // // remove useless node related class
-            // .replace(/(var [LocalFieAbstrn|Sm] = class \{[\s\S]*?\};)/, '')
-            // // remove createFromPath in taglib/files.js
-            // .replace(
-            //   'return _File.createInternal(new LocalFileAbstraction(filePath), mimeType, propertiesStyle)',
-            //   'throw new Error("cannot call createFromPath in browser")',
-            // )
-            // // remove fromPath in taglib/byteVector.js
-            // .replace(
-            //   /utils.*Guards.truthy\(path, "path"\);/g,
-            //   'throw new Error("cannot call fromPath in browser")',
-            // )
-            // // remove fromPath in taglib/picture.js
-            // .replace(
-            //   /utils.*Guards.truthy\(filePath, ".*?"\);/gi,
-            //   'throw new Error("cannot call fromPath in browser")',
-            // )
-            // // polyfill path deps taglib/utils.js
-            // .replace(
-            //   /path.extname\(name\)/gi,
-            //   'name.replace("/\\\\/g", "/").match(/.(\\.[^./]+)$/)?.[1]',
-            // )
-          return {
-            code: s.toString(),
-            map: s.generateMap({ hires: true }),
-          }
-        }
+      // apply: isBuild === undefined
+      //   ? 'build'
+      //   : () => isBuild,
+      transform: {
+        filter: {
+          id: /node-taglib-sharp-extend\/dist/,
+          code: /import \* as crypto from ["']crypto["'];/,
+        },
+        handler(code: string) {
+          return replaceNativeModules(code)
+        },
       },
     },
     nodePolyfills({
@@ -115,4 +92,31 @@ export function polyfillTaglib(
 export const taglibManualChunksConfig = {
   iconv: ['@subframe7536/iconv-lite'],
   taglib: ['node-taglib-sharp-extend'],
+}
+
+/**
+ * Config for `build.rollupOptions.output.manualChunks`
+ */
+export const taglibAdvancedChunksConfig = [
+  {
+    name: 'iconv',
+    test: '@subframe7536/iconv-lite',
+  },
+  {
+    name: 'taglib',
+    test: 'node-taglib-sharp-extend',
+  },
+]
+
+export function replaceNativeModules(code: string): { code: string, map: any } {
+  const s = new MagicString(code)
+    // replace node:crypto.randomFillSync with crypto.getRandomValues in matroskaAttachment.js
+    .replace(/import \* as crypto from ["']crypto["'];/, '')
+    .replace('randomFillSync', 'getRandomValues')
+    // remove fs
+    .replace(/import \* as fs from ["']fs["'];/, '')
+  return {
+    code: s.toString(),
+    map: s.generateMap({ hires: true }),
+  }
 }

@@ -1,6 +1,7 @@
 {
-  "extends": "@subframe7536/type-utils/tsconfig.json",
+  "extends": "@subframe7536/type-utils",
   "compilerOptions": {
+    "target": "esnext",
     "moduleResolution": "node"
   }
 }

@@ -14,10 +14,8 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./vite": {
-      "import": "./dist/vite.js",
-      "require": "./dist/vite.cjs"
-    }
+    "./vite": "./dist/vite.js",
+    "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -37,8 +35,8 @@
   },
   "scripts": {
     "format": "eslint . --fix",
-    "dev": "tsup --watch",
-    "build": "tsup",
+    "dev": "tsdown --stub --watch",
+    "build": "tsdown",
     "release": "pnpm run build && bumpp --all && npm publish",
     "test": "pnpm run build && vitest --run"
   },
@@ -60,21 +58,22 @@
   },
   "dependencies": {
     "@subframe7536/iconv-lite": "^0.7.3",
-    "uuid": "^11.0.5"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@subframe7536/eslint-config": "^1.1.8",
-    "@subframe7536/type-utils": "^0.1.6",
-    "@types/node": "^22.13.1",
-    "bumpp": "^10.0.1",
-    "eslint": "^9.19.0",
+    "@subframe7536/eslint-config": "^1.3.2",
+    "@subframe7536/type-utils": "^0.2.0",
+    "@types/node": "^22.17.2",
+    "bumpp": "^10.2.3",
+    "eslint": "^9.33.0",
     "eslint-plugin-solid": "^0.14.5",
-    "tsup": "^8.3.6",
-    "typescript": "^5.7.3",
-    "unplugin-inline-enum": "^0.2.0",
-    "vite": "^6.0.11",
-    "vite-plugin-node-polyfills": "^0.23.0",
-    "vitest": "^3.0.5"
+    "fast-base64": "^0.1.8",
+    "tsdown": "^0.14.1",
+    "typescript": "^5.9.2",
+    "unplugin-inline-enum": "^0.4.1",
+    "vite": "^7.1.2",
+    "vite-plugin-node-polyfills": "^0.24.0",
+    "vitest": "^3.2.4"
   },
   "pnpm": {
     "overrides": {
@@ -82,6 +81,9 @@
       "is-core-module": "npm:@nolyfill/is-core-module@^1",
       "is-typed-array": "npm:@nolyfill/is-typed-array@^1",
       "which-typed-array": "npm:@nolyfill/which-typed-array@^1"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

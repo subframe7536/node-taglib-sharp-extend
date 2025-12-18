@@ -92,10 +92,10 @@ export async function polyfillTaglib(
 export const taglibManualChunksConfig = {
   iconv: ['@subframe7536/iconv-lite'],
   taglib: ['node-taglib-sharp-extend'],
-}
+} as const
 
 /**
- * Config for `build.rollupOptions.output.manualChunks`
+ * Config for rolldown-vite's `advancedChunks`
  */
 export const taglibAdvancedChunksConfig = [
   {
@@ -106,7 +106,7 @@ export const taglibAdvancedChunksConfig = [
     name: 'taglib',
     test: 'node-taglib-sharp-extend',
   },
-]
+] as const
 
 export function replaceNativeModules(code: string): { code: string, map: any } {
   const s = new MagicString(code)

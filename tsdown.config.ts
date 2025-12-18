@@ -1,18 +1,24 @@
-import type { UserConfig } from 'tsdown'
+import { readFileSync } from 'node:fs'
 
 import { defineConfig } from 'tsdown'
-import inlineEnum from 'unplugin-inline-enum'
+import inlineEnum from 'unplugin-inline-enum/rolldown'
 
 export default defineConfig([
   {
     dts: { oxc: true },
     tsconfig: './tsconfig.taglib.json',
-    external: ['vite', 'esbuild', 'crypto', 'fs'],
+    external: ['vite'],
     entry: [
       './src/index.ts',
       './src/vite.ts',
     ],
-    plugins: [inlineEnum.rolldown({
+    exports: true,
+    define: {
+      __FS__: JSON.stringify('export default {}'),
+      __SD__: JSON.stringify(readFileSync('./polyfills/string-decoder.js', 'utf-8')),
+      __BF__: JSON.stringify(readFileSync('./polyfills/buffer-es6.js', 'utf-8')),
+    },
+    plugins: [inlineEnum({
       scanDir: './node-taglib-sharp-memory/src',
       include: [
         './node-taglib-sharp-memory/src/*.ts',

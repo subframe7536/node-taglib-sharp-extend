@@ -1,18 +1,11 @@
 import type { Plugin as VitePlugin } from 'vite'
-import type { PolyfillOptions } from 'vite-plugin-node-polyfills'
 
-import MagicString from 'magic-string'
-
-/**
- * modules that need to be polyfilled at dev:
- * 'stream', 'crypto', 'fs', 'util',
- */
-const DEV_POLYFILL_MODULES: Exclude<PolyfillOptions['include'], undefined> = [
-  'stream',
-  'crypto',
-  'fs',
-  'util',
-]
+const POLYFILL_PREFIX = 'taglib-polyfill'
+const POLYFILL_PREFIX_RESOLVED = `\0${POLYFILL_PREFIX}:`
+const REG_POLYFILL_MATCH = new RegExp(POLYFILL_PREFIX_RESOLVED)
+declare const __FS__: string
+declare const __SD__: string
+declare const __BF__: string
 
 /**
  * please make sure you have installed `vite-plugin-node-polyfills`
@@ -38,66 +31,74 @@ const DEV_POLYFILL_MODULES: Exclude<PolyfillOptions['include'], undefined> = [
  *   ],
  * }))
  */
-export async function polyfillTaglib(
-  extraOptions: PolyfillOptions & { isBuild?: boolean } = {},
-): Promise<VitePlugin<any>[]> {
-  const {
-    isBuild,
-    include = [],
-    globals: extraGlobals,
-    ...rest
-  } = extraOptions
-
-  include.push('buffer', 'string_decoder')
-
-  if (!isBuild) {
-    include.push(...DEV_POLYFILL_MODULES)
-  }
-
-  let nodePolyfills
+export async function polyfillTaglib(): Promise<VitePlugin<any>> {
+  let MagicString
   try {
-    nodePolyfills = await import('vite-plugin-node-polyfills').then(m => m.nodePolyfills)
+    MagicString = (await import('magic-string')).default
   } catch {
-    throw new Error('Package `vite-plugin-node-polyfills` is not installed')
+    throw new Error('Cannot import MagicString, it is necessory for vite plugin')
   }
-
-  return [
-    {
-      name: 'taglib-sharp-polyfill',
-      enforce: 'pre',
-      // apply: isBuild === undefined
-      //   ? 'build'
-      //   : () => isBuild,
-      transform: {
-        filter: {
-          id: /node-taglib-sharp-extend\/dist/,
-          code: /import \* as crypto from ["']crypto["'];/,
-        },
-        handler(code: string) {
-          return replaceNativeModules(code)
-        },
+  return {
+    name: 'taglib-sharp-polyfill',
+    enforce: 'pre',
+    resolveId: {
+      filter: {
+        id: [/^fs$/, /^string_decoder$/, /^buffer$/],
+      },
+      handler(source) {
+        return `${POLYFILL_PREFIX_RESOLVED}${source}`
       },
     },
-    nodePolyfills({
-      ...rest,
-      globals: extraGlobals,
-      include,
-    }),
-  ]
+    load: {
+      filter: {
+        id: REG_POLYFILL_MATCH,
+      },
+      handler(id) {
+        id = id.replace(REG_POLYFILL_MATCH, '')
+        switch (id) {
+          case 'fs':
+            return __FS__
+          case 'string_decoder':
+            return __SD__
+          case 'buffer':
+            // eslint-disable-next-line prefer-template
+            return 'if (typeof global === "undefined") window.global = window;\n' + __BF__
+        }
+      },
+    },
+    transform: {
+      filter: {
+        id: /node-taglib-sharp-extend\/dist/,
+        code: /import \* as crypto from ["']crypto["'];/,
+      },
+      handler(code: string) {
+        const s = new MagicString(code)
+          // replace node:crypto.randomFillSync with crypto.getRandomValues in matroskaAttachment.js
+          .replace(/import \* as crypto from ["']crypto["'];/, '')
+          .replace('randomFillSync', 'getRandomValues')
+          // remove fs
+          .replace(/import \* as fs from ["']fs["'];/, '')
+        return {
+          code: s.toString(),
+          map: s.generateMap({ hires: true }),
+        }
+      },
+    },
+  }
 }
 
 /**
  * Config for `build.rollupOptions.output.manualChunks`
  */
-export const taglibManualChunksConfig = {
+export const taglibManualChunksConfig: Record<string, string[]> = {
   iconv: ['@subframe7536/iconv-lite'],
   taglib: ['node-taglib-sharp-extend'],
-} as const
+}
 
 /**
  * Config for rolldown-vite's `advancedChunks`
  */
-export const taglibAdvancedChunksConfig = [
+export const taglibAdvancedChunksConfig: any[] = [
   {
     name: 'iconv',
     test: '@subframe7536/iconv-lite',
@@ -106,17 +107,4 @@ export const taglibAdvancedChunksConfig = [
     name: 'taglib',
     test: 'node-taglib-sharp-extend',
   },
-] as const
-
-export function replaceNativeModules(code: string): { code: string, map: any } {
-  const s = new MagicString(code)
-    // replace node:crypto.randomFillSync with crypto.getRandomValues in matroskaAttachment.js
-    .replace(/import \* as crypto from ["']crypto["'];/, '')
-    .replace('randomFillSync', 'getRandomValues')
-    // remove fs
-    .replace(/import \* as fs from ["']fs["'];/, '')
-  return {
-    code: s.toString(),
-    map: s.generateMap({ hires: true }),
-  }
-}
+]

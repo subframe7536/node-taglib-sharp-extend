@@ -1,14 +1,13 @@
+import { polyfillTaglib, taglibManualChunksConfig } from 'node-taglib-sharp-extend/vite'
 import uno from 'unocss/vite'
 import { defineConfig } from 'vite'
 import solid from 'vite-plugin-solid'
-
-import { polyfillTaglib, taglibManualChunksConfig } from '../src/vite'
 
 export default defineConfig({
   plugins: [
     solid(),
     uno(),
-    polyfillTaglib(),
+    polyfillTaglib() as any,
   ],
   build: {
     // minify: false,

@@ -107,53 +107,27 @@ export type Metadata<T extends string | string[] = string[]> = {
 }
 ```
 
-more utils are documented by JSDoc
+More utils are documented by JSDoc
 
 ### Run in browser
 
-if you want to run it in webapp, you need to do some polyfills for node modules
+If you want to run it in webapp, you need to do some polyfills for node modules
 
-total size: ~250KB (minified + gzip)
+Total size: ~250KB (minified + gzip)
 
 #### Polyfills
 
-there is a built-in vite plugin for polyfill, and please ensure that [`vite-plugin-node-polyfills`](https://github.com/davidmyersdev/vite-plugin-node-polyfills) is installed
+There is a built-in vite plugin for polyfill, handling `buffer` and `string_decoder`. `fs` and `crypto` will be transformed.
 
-when dev,
-default includes: `['buffer', 'string_decoder', 'stream', 'crypto', 'fs', 'util']`
-
-when build,
-default includes: `['buffer', 'string_decoder']`,
-other modules are manually transformed by the plugin
-
-vite config:
 ```ts
+// vite.config.ts
 import { polyfillTaglib } from 'node-taglib-sharp-extend/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
-    polyfillTaglib(/* options */),
+    polyfillTaglib({ optimizeChunk: true /* default */ }),
   ],
-})
-```
-
-#### Manual Chunks
-
-Built-in `manualChunks` config, split into 2 vendors: `iconv` and `taglib`
-
-```ts
-import { taglibManualChunksConfig } from 'node-taglib-sharp-extend/vite'
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: taglibManualChunksConfig
-      }
-    }
-  }
 })
 ```
 

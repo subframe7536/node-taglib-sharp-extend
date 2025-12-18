@@ -10,13 +10,21 @@
     "music-metadata"
   ],
   "exports": {
-    ".": "./dist/index.mjs",
-    "./vite": "./dist/vite.mjs",
-    "./package.json": "./package.json"
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./vite": {
+      "require": "./dist/vite.cjs",
+      "import": "./dist/vite.mjs"
+    },
+    "./package.json": "./package.json",
+    "./buffer": "./polyfills/buffer-es6.js",
+    "./string-decoder": "./polyfills/string-decoder.js"
   },
-  "main": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "types": "./dist/index.d.cts",
   "typesVersions": {
     "*": {
       "vite": [
@@ -41,7 +49,21 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "exports": {
+      ".": {
+        "require": "./dist/index.cjs",
+        "import": "./dist/index.mjs"
+      },
+      "./vite": {
+        "require": "./dist/vite.cjs",
+        "import": "./dist/vite.mjs"
+      },
+      "./package.json": "./package.json",
+      "./fs": "./polyfills/empty.js",
+      "./buffer": "./polyfills/buffer-es6.js",
+      "./string-decoder": "./polyfills/string-decoder.js"
+    }
   },
   "peerDependencies": {
     "magic-string": ">=0.30"

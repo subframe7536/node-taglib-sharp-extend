@@ -28,14 +28,6 @@ export const taglibAdvancedChunksConfig: any[] = [
 
 const req = createRequire(import.meta.url)
 
-interface PolyfillTaglibOptions {
-  /**
-   * Whether to add chunk config
-   * @default true
-   */
-  optimizeChunk?: boolean
-}
-
 /**
  * Polyfill vite plugin for node-taglib-sharp-extend
  *
@@ -49,8 +41,7 @@ interface PolyfillTaglibOptions {
  *   ],
  * })
  */
-export async function polyfillTaglib(options: PolyfillTaglibOptions = {}): Promise<VitePlugin<any>> {
-  const { optimizeChunk = true } = options
+export async function polyfillTaglib(): Promise<VitePlugin<any>> {
   let MagicString
   try {
     MagicString = (await import('magic-string')).default
@@ -66,13 +57,6 @@ export async function polyfillTaglib(options: PolyfillTaglibOptions = {}): Promi
           alias: {
             buffer: req.resolve(`${name}/buffer`),
             string_decoder: req.resolve(`${name}/string-decoder`),
-          },
-        },
-        build: {
-          rollupOptions: {
-            output: {
-              manualChunks: optimizeChunk ? taglibManualChunksConfig : undefined,
-            },
           },
         },
       }

@@ -122,12 +122,19 @@ There is a built-in vite plugin for polyfill, handling `buffer` and `string_deco
 ```ts
 // vite.config.ts
 import { polyfillTaglib } from 'node-taglib-sharp-extend/vite'
-import { defineConfig } from 'vite'
+import { defineConfig, taglibAdvancedChunksConfig, taglibManualChunksConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
-    polyfillTaglib({ optimizeChunk: true /* default */ }),
+    polyfillTaglib(),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: taglibManualChunksConfig,
+      },
+    },
+  },
 })
 ```
 

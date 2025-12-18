@@ -11,12 +11,12 @@
   ],
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./vite": {
-      "require": "./dist/vite.cjs",
-      "import": "./dist/vite.mjs"
+      "import": "./dist/vite.mjs",
+      "require": "./dist/vite.cjs"
     },
     "./package.json": "./package.json",
     "./buffer": "./polyfills/buffer-es6.js",
@@ -49,21 +49,7 @@
   },
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/",
-    "exports": {
-      ".": {
-        "require": "./dist/index.cjs",
-        "import": "./dist/index.mjs"
-      },
-      "./vite": {
-        "require": "./dist/vite.cjs",
-        "import": "./dist/vite.mjs"
-      },
-      "./package.json": "./package.json",
-      "./fs": "./polyfills/empty.js",
-      "./buffer": "./polyfills/buffer-es6.js",
-      "./string-decoder": "./polyfills/string-decoder.js"
-    }
+    "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
     "magic-string": ">=0.30"

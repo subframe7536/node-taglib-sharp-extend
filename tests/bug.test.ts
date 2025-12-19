@@ -1,6 +1,8 @@
 import { cpSync, rmSync } from 'node:fs'
+
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { createFileFromPath, flushFile, updateTag } from '../dist/index.js'
+
+import { createFileFromPath, flushFile, updateTag } from '../src'
 
 const targetPath = './samples/bug_test.m4a'
 describe('test', () => {

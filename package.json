@@ -45,7 +45,7 @@
     "build": "tsdown",
     "play": "cd ./playground && pnpm run dev",
     "release": "pnpm run build && bumpp --all && npm publish",
-    "test": "pnpm run build && vitest --run"
+    "test": "vitest --run"
   },
   "publishConfig": {
     "access": "public",

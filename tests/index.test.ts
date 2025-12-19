@@ -1,7 +1,17 @@
+import type { Tag } from '../dist/index.mjs'
+
 import { cpSync, readFileSync, rmSync } from 'node:fs'
+
 import { describe, expect, it } from 'vitest'
-import { createFileFromBuffer, createFileFromPath, createPicturefromPath, type Tag } from '../dist/index.js'
-import { flushFile, createFileFromBuffer as getFileFromBuffer, parseMetadata } from '../dist/index.js'
+
+import {
+  createFileFromBuffer,
+  createFileFromPath,
+  createPicturefromPath,
+  flushFile,
+  createFileFromBuffer as getFileFromBuffer,
+  parseMetadata,
+} from '../src'
 
 describe('test suit', () => {
   const dict = {
@@ -19,7 +29,7 @@ describe('test suit', () => {
     trackCount: 0,
     year: 2016,
   } as const
-  ['mp3', 'm4a', 'flac', 'opus', 'wav'].forEach((str) => {
+  ['mp3', 'm4a', 'flac', 'opus', 'wav', 'webm'].forEach((str) => {
     it(str, () => {
       const fileName = `test.${str}`
       const file = getFileFromBuffer(fileName, readFileSync(`./samples/${fileName}`))
@@ -33,9 +43,13 @@ describe('test suit', () => {
       console.log(`${property.channels} Channels`)
       console.log(`${property.duration} ms`)
       console.log(`${property.codecs}`)
-      file.tag.album = 'test album'
-      file.tag.pictures = [createPicturefromPath('./samples/cover.jpg')]
-      file.save()
+
+      // WebM is read-only
+      if (str !== 'webm') {
+        file.tag.album = 'test album'
+        file.tag.pictures = [createPicturefromPath('./samples/cover.jpg')]
+        file.save()
+      }
     })
   })
   it('large file (fs)', () => {

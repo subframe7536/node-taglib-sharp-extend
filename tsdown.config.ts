@@ -14,14 +14,15 @@ export default defineConfig([
       customExports(exports) {
         exports['./buffer'] = './polyfills/buffer-es6.js'
         exports['./string-decoder'] = './polyfills/string-decoder.js'
+        exports['.'] = Object.fromEntries(Object.entries(exports['.']).sort())
+        exports['./vite'] = Object.fromEntries(Object.entries(exports['./vite']).sort())
         return exports
       },
     },
     plugins: [inlineEnum({
       scanDir: './node-taglib-sharp-memory/src',
-      include: [
-        './node-taglib-sharp-memory/src/*.ts',
-        './node-taglib-sharp-memory/src/{ape,asf,flac,id3v2,matroska,mpeg,mpeg4,ogg,riff}/**/*.ts',
+      exclude: [
+        '**/mpeg4BoxType.ts',
       ],
     })],
   },

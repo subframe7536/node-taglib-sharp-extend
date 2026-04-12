@@ -9,7 +9,7 @@
     "build": "cd ./packages/node-taglib-sharp-extend && bun run build",
     "play": "bun run build && cd ./packages/playground && bun run dev",
     "qa": "oxlint --fix && oxfmt && tsc --noEmit",
-    "release": "bun run build && bumpp --all",
+    "release": "bun run build && bun run test && bumpp package.json ./packages/node-taglib-sharp-extend/package.json --all",
     "test": "vitest --run"
   },
   "dependencies": {

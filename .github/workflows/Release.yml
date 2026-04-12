@@ -1,0 +1,29 @@
+name: Release
+
+permissions:
+  contents: write
+  id-token: write
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+
+      # Ensure npm 11.5.1 or later is installed
+      - name: Update npm
+        run: bun install -g npm@latest
+
+      - run: bun ci
+      - run: git submodule update --init --recursive
+      - run: bun run build
+      - run: cd packages/node-taglib-sharp-extend && npm publish

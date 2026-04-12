@@ -1,0 +1,1 @@
+./packages/node-taglib-sharp-extend/README.md

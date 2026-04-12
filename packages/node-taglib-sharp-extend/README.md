@@ -10,9 +10,6 @@ Patch [node-taglib-sharp](https://github.com/benrr101/node-taglib-sharp) with:
 
 Backup your file!
 
-Known issue:
-- ~~`m4a` maybe corrupt after writing, see [original issue](https://github.com/benrr101/node-taglib-sharp/issues/103#issuecomment-1987243846)~~ Seems be solved, see [original PR](https://github.com/benrr101/node-taglib-sharp/pull/108)
-
 ## Install
 
 ```shell
@@ -122,20 +119,16 @@ There is a built-in vite plugin for polyfill, handling `buffer` and `string_deco
 
 ```ts
 // vite.config.ts
-import { polyfillTaglib } from 'node-taglib-sharp-extend/vite'
-import { defineConfig, taglibAdvancedChunksConfig, taglibManualChunksConfig } from 'vite'
+import { taglib } from 'node-taglib-sharp-extend/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
-    polyfillTaglib(),
+    taglib({
+      // polyfill: true,
+      // codeSplitting: true,
+    }),
   ],
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: taglibManualChunksConfig,
-      },
-    },
-  },
 })
 ```
 

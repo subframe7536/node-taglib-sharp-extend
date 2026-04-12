@@ -1,14 +1,13 @@
-import type { File, IPicture } from '../node-taglib-sharp-memory/src/index'
-
 import {
   createFileFromBuffer,
   createLazyPicturefromBuffer,
-} from '../node-taglib-sharp-memory/src/abstraction/memory/index'
-import { MemoryFileAbstraction } from '../node-taglib-sharp-memory/src/abstraction/memory/memoryFileAbstraction'
-import { ByteVector } from '../node-taglib-sharp-memory/src/byteVector'
-import { CorruptFileError } from '../node-taglib-sharp-memory/src/index'
-import { Picture, PictureType } from '../node-taglib-sharp-memory/src/picture'
-import { MediaTypes } from '../node-taglib-sharp-memory/src/properties'
+} from '../../../node-taglib-sharp-memory/src/abstraction/memory/index'
+import { MemoryFileAbstraction } from '../../../node-taglib-sharp-memory/src/abstraction/memory/memoryFileAbstraction'
+import { ByteVector } from '../../../node-taglib-sharp-memory/src/byteVector'
+import type { File, IPicture } from '../../../node-taglib-sharp-memory/src/index'
+import { CorruptFileError } from '../../../node-taglib-sharp-memory/src/index'
+import { Picture, PictureType } from '../../../node-taglib-sharp-memory/src/picture'
+import { MediaTypes } from '../../../node-taglib-sharp-memory/src/properties'
 
 export type AudioQualityType = 'HQ' | 'Hi-Res' | 'SQ'
 
@@ -123,7 +122,10 @@ type ArrayableName = Exclude<
   undefined
 >
 
-export type TransformStringArrayFn<T extends string | string[]> = (rawArray: string[], name: ArrayableName) => T
+export type TransformStringArrayFn<T extends string | string[]> = (
+  rawArray: string[],
+  name: ArrayableName,
+) => T
 
 /**
  * parse file metadata to {@link Metadata}
@@ -141,23 +143,26 @@ export function parseMetadata<T extends string | string[] = string[]>(
     // make sure all array is not empty, else return undefined
     tag[outputName] = Array.isArray(value)
       ? value.length
-        // parse string[] if is defined
-        ? transformStringArray
+        ? // parse string[] if is defined
+          transformStringArray
           ? transformStringArray(value, outputName as ArrayableName)
           : value
         : undefined
-      // else return original value
-      : value
+      : // else return original value
+        value
   }
   const pictures = file.tag.pictures
-    .filter(pic => pic.type !== PictureType.NotAPicture)
-    .map(({ data, description, filename, mimeType, type }) => ({
-      data: data.toByteArray() as Uint8Array<ArrayBuffer>,
-      description,
-      filename,
-      mimeType,
-      coverType: type,
-    } satisfies IParsedPicture))
+    .filter((pic) => pic.type !== PictureType.NotAPicture)
+    .map(
+      ({ data, description, filename, mimeType, type }) =>
+        ({
+          data: data.toByteArray() as Uint8Array<ArrayBuffer>,
+          description,
+          filename,
+          mimeType,
+          coverType: type,
+        }) satisfies IParsedPicture,
+    )
 
   // cannot destructure because they are getters in class instead of real properties
   const props = file.properties
@@ -167,11 +172,14 @@ export function parseMetadata<T extends string | string[] = string[]>(
     channels: props.audioChannels,
     duration: ~~props.durationMilliseconds,
     sampleRate: props.audioSampleRate,
-    codecs: props.codecs.filter(Boolean).map(c => c.description),
+    codecs: props.codecs.filter(Boolean).map((c) => c.description),
   }
 
   if (!property.bitRate) {
-    property.bitRate = ~~((file.fileAbstraction.size - (file.tag.sizeOnDisk || 0)) * 8 / property.duration)
+    property.bitRate = ~~(
+      ((file.fileAbstraction.size - (file.tag.sizeOnDisk || 0)) * 8) /
+      property.duration
+    )
   }
 
   const quality = parseQualityType(
@@ -213,11 +221,7 @@ export function updateTag<T extends UpdateTagKey>(
  * @param buffer picture buffer
  * @param fileName picture name with extension
  */
-export function updatePicture(
-  file: File,
-  buffer: Uint8Array,
-  fileName?: string,
-): boolean {
+export function updatePicture(file: File, buffer: Uint8Array, fileName?: string): boolean {
   const pic = fileName
     ? createLazyPicturefromBuffer(fileName, buffer)
     : Picture.fromData(ByteVector.fromByteArray(buffer))
@@ -247,7 +251,7 @@ export async function checkWebWorkerSupport(): Promise<boolean> {
       resolve(false)
     }
   })
-    .then(result => result)
+    .then((result) => result)
     .catch(() => false)
     .finally(() => {
       worker.terminate()
@@ -289,9 +293,7 @@ export function flushFile(file: File): File {
  * @param picture parsed picture
  */
 export function getPictureURL(picture: IParsedPicture): [url: string, clean: VoidFunction] {
-  const url = URL.createObjectURL(
-    new Blob([picture.data], { type: picture.mimeType }),
-  )
+  const url = URL.createObjectURL(new Blob([picture.data], { type: picture.mimeType }))
   return [url, () => URL.revokeObjectURL(url)]
 }
 
@@ -307,7 +309,7 @@ export async function getPictureBase64(
 ): Promise<`data:${MimeType};base64,${Base64String}`> {
   let reader = new FileReader()
   let promise = new Promise<string>(
-    resolve => reader.onload = () => resolve(reader.result as string),
+    (resolve) => (reader.onload = () => resolve(reader.result as string)),
   )
   let type = 'application/octet-stream'
   let blob = new Blob([picture.data], { type })

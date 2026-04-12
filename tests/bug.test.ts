@@ -2,7 +2,7 @@ import { cpSync, rmSync } from 'node:fs'
 
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { createFileFromPath, flushFile, updateTag } from '../src'
+import { createFileFromPath, flushFile, updateTag } from '../packages/node-taglib-sharp-extend/src'
 
 const targetPath = './samples/bug_test.m4a'
 describe('test', () => {

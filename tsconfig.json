@@ -1,7 +1,6 @@
 {
-  "extends": "@subframe7536/type-utils",
+  "extends": "@subf/config/tsconfig-lib",
   "compilerOptions": {
-    "target": "esnext",
-    "moduleResolution": "node"
+    "lib": ["DOM", "ESNext", "WebWorker"]
   }
 }

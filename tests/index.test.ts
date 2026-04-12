@@ -1,9 +1,8 @@
-import type { Tag } from '../dist/index.mjs'
-
 import { cpSync, readFileSync, rmSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'
 
+import type { Tag } from '../dist/index.mjs'
 import {
   createFileFromBuffer,
   createFileFromPath,
@@ -11,7 +10,7 @@ import {
   flushFile,
   createFileFromBuffer as getFileFromBuffer,
   parseMetadata,
-} from '../src'
+} from '../packages/node-taglib-sharp-extend/src'
 
 describe('test suit', () => {
   const dict = {
@@ -29,7 +28,7 @@ describe('test suit', () => {
     trackCount: 0,
     year: 2016,
   } as const
-  ['mp3', 'm4a', 'flac', 'opus', 'wav', 'webm'].forEach((str) => {
+  ;['mp3', 'm4a', 'flac', 'opus', 'wav', 'webm'].forEach((str) => {
     it(str, () => {
       const fileName = `test.${str}`
       const file = getFileFromBuffer(fileName, readFileSync(`./samples/${fileName}`))

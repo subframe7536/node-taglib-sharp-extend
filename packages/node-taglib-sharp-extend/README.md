@@ -6,6 +6,7 @@ Patch [node-taglib-sharp](https://github.com/benrr101/node-taglib-sharp) with:
 - Read / Write support for file in buffer, detach `createFromPath` in `File`
 - Fresh dependencies and reduce `Node` dependencies
 - Provide `Vite` plugin for webapp
+- ESM only, no CJS support
 
 Backup your file!
 

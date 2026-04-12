@@ -1,8 +1,8 @@
-import type { Plugin as VitePlugin } from 'vite'
-
 import { createRequire } from 'node:module'
 
-import { name } from '../package.json'
+import type { Plugin as VitePlugin } from 'vite'
+
+import { name } from '../../../package.json'
 
 /**
  * Config for `build.rollupOptions.output.manualChunks`
